@@ -138,7 +138,7 @@ namespace osu.Game.Rulesets.Osu.Difficulty
             double aimValue = OsuStrainSkill.DifficultyToPerformance(attributes.AimDifficulty);
 
             double lengthBonus = 0.95 + 0.4 * Math.Min(1.0, totalHits / 2000.0) +
-                                 (totalHits > 2000 ? Math.Log10(totalHits / 2000.0) * 0.5 : 0.0);
+                                 (totalHits > 2000 ? Math.Log10(totalHits / 10000.0) * 0.5 : 0.0);
             aimValue *= lengthBonus;
 
             if (effectiveMissCount > 0)
