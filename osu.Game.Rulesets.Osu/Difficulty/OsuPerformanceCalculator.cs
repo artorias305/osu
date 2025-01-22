@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using osu.Game.Rulesets.Difficulty;
+using osu.Game.Rulesets.Edit.Checks;
 using osu.Game.Rulesets.Osu.Difficulty.Skills;
 using osu.Game.Rulesets.Osu.Mods;
 using osu.Game.Rulesets.Scoring;
@@ -187,10 +188,22 @@ namespace osu.Game.Rulesets.Osu.Difficulty
             }
 
             aimValue *= accuracy;
+
+            if (accuracy < 0.94)
+            {
+                double accuracyPenalty = 1 - (0.93 - accuracy) * 0.1;
+                aimValue *= accuracy;
+            }
+
+            // It is important to consider accuracy difficulty when scaling with accuracy.
+            aimValue *= 0.98 + Math.Pow(attributes.OverallDifficulty, 2) / 2500;
+            return aimValue;
+
+            /*aimValue *= accuracy;
             // It is important to consider accuracy difficulty when scaling with accuracy.
             aimValue *= 0.98 + Math.Pow(attributes.OverallDifficulty, 2) / 2500;
 
-            return aimValue;
+            return aimValue;*/
         }
 
         private double computeSpeedValue(ScoreInfo score, OsuDifficultyAttributes attributes)
